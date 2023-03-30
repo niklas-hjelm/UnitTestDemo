@@ -12,20 +12,20 @@ public class PeopleRepository : IRepository
         _peopleContext = peopleContext;
     }
 
-    public void Add<T>(T entity)
+    public async Task Add<T>(T entity)
     {
-         _peopleContext.People.Add(entity as Person);
-         _peopleContext.SaveChanges();
+         await _peopleContext.People.AddAsync(entity as Person);
+         await _peopleContext.SaveChangesAsync();
     }
 
-    public T GetById<T>(int id) where T : class
+    public async Task<T> GetById<T>(int id) where T : class
     {
-        return _peopleContext.People.Find(id) as T;
+        return await _peopleContext.People.FindAsync(id) as T;
     }
 
-    IEnumerable<T> IRepository.GetAll<T>()
+    public async Task<IEnumerable<T>> GetAll<T>() where T : class
     {
-        return _peopleContext.People.ToList() as IEnumerable<T>;
+        return await _peopleContext.People.ToListAsync() as IEnumerable<T>;
     }
     
     public async Task UpdateAsync<T>(T entity)

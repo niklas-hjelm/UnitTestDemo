@@ -17,17 +17,17 @@ namespace UnitTestDemo.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get()
+        public async Task<IActionResult> Get()
         { 
-            var people = _repository.GetAll<Person>();
+            var people = await _repository.GetAll<Person>();
 
             return Ok(people);
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var person = _repository.GetById<Person>(id);
+            var person = await _repository.GetById<Person>(id);
             if (person is null)
             {
                 return NotFound();
@@ -36,9 +36,9 @@ namespace UnitTestDemo.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Person person)
+        public async Task<IActionResult> Post(Person person)
         { 
-            _repository.Add(person);
+            await _repository.Add(person);
             return CreatedAtAction(nameof(Get), new {id = person.Id}, person);
         }
     }
